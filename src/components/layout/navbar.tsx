@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import MobileMenu from './mobileMenu'
-import { Button } from '../ui/button'
+import AuthButton from '../buttons/authButton'
 
 export type MenuItemType = {
   displayText: string
@@ -68,7 +68,7 @@ export default function Navbar() {
           </nav>
         </div>
         <div className="hidden lg:flex lg:justify-end">
-          <Button>Sign in</Button>
+          <AuthButton />
         </div>
         <MobileMenu menuItems={MENU_ITEMS} pathname={pathname} />
       </div>

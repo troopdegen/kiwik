@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google'
 
 import '@/styles/globals.css'
 import { Toaster } from '@/components/ui/sonner'
+import OnchainProvider from '@/providers/onchainProvider'
 
 const fontSans = Inter({
   subsets: ['latin'],
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
   description: 'Get a head start on your hack with Polygon',
   icons: [{ rel: 'icon', url: '/favicon.ico' }],
 }
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -27,8 +29,10 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        {children}
-        <Toaster richColors />
+        <OnchainProvider>
+          {children}
+          <Toaster richColors />
+        </OnchainProvider>
       </body>
     </html>
   )

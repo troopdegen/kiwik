@@ -8,7 +8,7 @@ export default function Home() {
       <div className="page space-y-8 text-center">
         <h1>Polygon Hackathon Starter</h1>
         <h3>
-          Get a head start on your hack with
+          get a head start on your hack with
           <br />
           <Link href="https://ethglobal.com/events/bangkok/prizes#polygon">
             Polygon
@@ -18,8 +18,8 @@ export default function Home() {
             Dynamic.xyz
           </Link>
         </h3>
-        <Link href="https://learn.dabl.club">
-          <Button size="lg">Check the tutorial!</Button>
+        <Link href="https://learn.dabl.club" target="_blank">
+          <Button size="lg">check the tutorial!</Button>
         </Link>
       </div>
     </PageWithAppbar>

@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/sheet'
 import { MenuIcon } from 'lucide-react'
 import { type MenuItemType } from './navbar'
-import { Button } from '../ui/button'
+import AuthButton from '../buttons/authButton'
 
 type MobileMenuProps = {
   menuItems?: MenuItemType[]
@@ -29,7 +29,7 @@ export default function MobileMenu({ menuItems, pathname }: MobileMenuProps) {
           <span className="sr-only">Toggle navigation menu</span>
         </button>
       </SheetTrigger>
-      <SheetContent side="right" className="bg-black">
+      <SheetContent side="right" className="bg-background">
         <SheetTitle className="sr-only">Menu</SheetTitle>
         <SheetDescription className="sr-only">
           Navigation items
@@ -48,7 +48,7 @@ export default function MobileMenu({ menuItems, pathname }: MobileMenuProps) {
             </Link>
           ))}
           <div className="flex justify-center py-2">
-            <Button size="lg">Sign in</Button>
+            <AuthButton setIsMenuOpen={setIsMenuOpen} />
           </div>
         </div>
       </SheetContent>
