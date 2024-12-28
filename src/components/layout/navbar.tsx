@@ -15,20 +15,10 @@ export type MenuItemType = {
 }
 
 const MENU_ITEMS: MenuItemType[] = [
-  {
-    displayText: 'bounties',
-    href: 'https://ethglobal.com/events/bangkok/prizes#polygon',
-    isExternal: true,
-    isMobileOnly: false,
-  },
-  {
-    displayText: 'repo',
-    href: 'https://github.com/Dablclub/hackathon-starter',
-    isExternal: true,
-    isMobileOnly: false,
-  },
+  { displayText: 'comunidades', href: '/', isMobileOnly: false },
+  { displayText: 'crear', href: '/crear', isMobileOnly: false },
   { displayText: 'faq', href: '/faq', isMobileOnly: false },
-  { displayText: 'account', href: '/account', isMobileOnly: false },
+  { displayText: 'cuenta', href: '/account', isMobileOnly: false },
 ]
 
 export default function Navbar() {
