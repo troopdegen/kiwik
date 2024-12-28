@@ -1,0 +1,132 @@
+mel | troopdegen.eth 🥭🍄🍫, [28/12/24 2:15 P.M.]
+model User {
+  id                    String              @id
+  appWallet             String              @unique
+  username              String              @unique
+  extWallet             String              @unique
+  email                 String?             @unique
+  bio                   String?
+  website               String?
+  avatarUrl             String?
+  bannerUrl             String?
+  profile               Profile?
+  communities           UserCommunity[]
+  projects              Project[]
+  posts                 Post[]
+  comments              Comment[]
+  votes                 Vote[]
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  @@index([appWallet, username, extWallet, email])
+}
+
+model Profile {
+  displayName           String
+  firstName             String?
+  lastName              String?
+  cityRegion            String?
+  country               String?
+  primaryRole           String?
+  professionalProfile   String?
+  isStudent             Boolean             @default(false)
+  githubUsername        String
+  xUsername             String
+  telegramUsername      String
+  user                  User                @relation(fields: [userId], references: [id])
+  userId                String              @unique
+}
+
+model Project {
+  id                    String              @id @default(uuid())
+  wallet                String?             @unique
+  name                  String              @unique
+  email                 String?             @unique
+  website               String              @unique
+  description           String?
+  avatarUrl             String?
+  bannerUrl             String?
+  tokenAddress          String?
+  category              String
+  networks              String[]
+  admin                 User                @relation(fields: [adminId], references: [id])
+  adminId               String
+  community             Community?          @relation(fields: [communityId], references: [id])
+  communityId           String?             @unique
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  @@index([wallet, name, email, adminId, category]) 
+}
+
+model Community {
+  id                    String              @id @default(uuid())
+  name                  String              @unique
+  description           String?
+  project               Project?
+  projectId             String?             @unique
+  members               UserCommunity[]
+  posts                 Post[]
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+}
+
+model UserCommunity {
+  id                    String              @id @default(uuid())
+  user                  User                @relation(fields: [userId], references: [id])
+  userId                String
+  community             Community           @relation(fields: [communityId], references: [id])
+  communityId           String
+  isAdmin               Boolean             @default(false) // Indicates if the user is an admin
+  isModerator           Boolean             @default(false) // Indicates if the user is a moderator
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+}
+
+mel | troopdegen.eth 🥭🍄🍫, [28/12/24 2:15 P.M.]
+model Post {
+  id                    String              @id @default(uuid())
+  title                 String
+  content               String?
+  media_url             String?
+  category              String?             @default("default")
+  upvotes               Int                 @default(0)
+  downvotes             Int                 @default(0)
+  author                User                @relation(fields: [authorId], references: [id])
+  authorId              String
+  community             Community?          @relation(fields: [communityId], references: [id])
+  communityId           String?
+  comments              Comment[]
+  votes                 Vote[]
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+}
+
+model Comment {
+  id                    String              @id @default(uuid())
+  content               String
+  upvotes               Int                 @default(0)
+  downvotes             Int                 @default(0)
+  author                User                @relation(fields: [authorId], references: [id])
+  authorId              String
+  post                  Post                @relation(fields: [postId], references: [id])
+  postId                String
+  votes                 Vote[]
+  parentComment         Comment?            @relation("ChildComments", fields: [parentCommentId], references: [id])
+  parentCommentId       String?
+  childComments         Comment[]           @relation("ChildComments") // One-to-many self-relation for child comments
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+}
+
+model Vote {
+  id            Int       @id @default(autoincrement())
+  user          User      @relation(fields: [userId], references: [id])
+  userId        String
+  post          Post?     @relation(fields: [postId], references: [id])
+  postId        String?
+  comment       Comment?  @relation(fields: [commentId], references: [id])
+  commentId     String?
+  voteValue     Int       // Values: -1 (downvote), 0 (no vote), 1 (upvote)
+  createdAt     DateTime  @default(now())
+}
