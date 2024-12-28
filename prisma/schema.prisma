@@ -24,3 +24,17 @@ model User {
 
     @@index([wallet, username, displayName])
 }
+
+model Community {
+    id              String    @id @default(uuid())
+    name            String
+    profileUrl      String
+    bannerUrl       String
+    memberCount     Int       @default(0)
+    tokenSymbol     String
+    swarmActivity   Int       @default(0)
+    description     String
+    createdAt       DateTime  @default(now())
+
+    @@index([name])
+}
