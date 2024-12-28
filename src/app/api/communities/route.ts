@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server'
 import { communityController } from '@/server/controllers/communityController'
 
@@ -8,12 +7,12 @@ export async function GET(request: NextRequest) {
     const communityId = searchParams.get('communityId')
 
     if (communityId) {
-      const community = await communityController.findUnique(communityId)
-      
+      const community = await communityController.getCommunity(communityId)
+
       if (!community) {
         return NextResponse.json(
           { error: 'Community not found' },
-          { status: 404 }
+          { status: 404 },
         )
       }
 
@@ -21,7 +20,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get all communities sorted by swarm activity
-    const communities = await communityController.findAll()
+    const communities = await communityController.getAllCommunities()
     const sortedCommunities = communities.sort((a, b) => {
       const aActivity = a.members.length + a.posts.length
       const bActivity = b.members.length + b.posts.length
@@ -33,7 +32,7 @@ export async function GET(request: NextRequest) {
     console.error('Error in communities API:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }

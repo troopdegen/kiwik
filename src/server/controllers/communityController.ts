@@ -1,5 +1,4 @@
-
-import { prisma } from '../server/prismaClient'
+import prisma from '../prismaClient'
 import type { Community } from '@/types/community'
 
 export const communityController = {
@@ -12,33 +11,36 @@ export const communityController = {
         memberCount: data.memberCount,
         tokenSymbol: data.tokenSymbol,
         swarmActivity: data.swarmActivity,
-        description: data.description
-      }
+        description: data.description,
+      },
     })
   },
 
   async getCommunity(id: string) {
     return await prisma.community.findUnique({
-      where: { id }
+      where: { id },
     })
   },
 
-  async updateCommunity(id: string, data: Partial<Omit<Community, 'id' | 'createdAt'>>) {
+  async updateCommunity(
+    id: string,
+    data: Partial<Omit<Community, 'id' | 'createdAt'>>,
+  ) {
     return await prisma.community.update({
       where: { id },
-      data
+      data,
     })
   },
 
   async deleteCommunity(id: string) {
     return await prisma.community.delete({
-      where: { id }
+      where: { id },
     })
   },
 
   async getAllCommunities() {
     return await prisma.community.findMany({
-      orderBy: { memberCount: 'desc' }
+      orderBy: { memberCount: 'desc' },
     })
   },
 
@@ -47,9 +49,9 @@ export const communityController = {
       where: {
         OR: [
           { name: { contains: query, mode: 'insensitive' } },
-          { description: { contains: query, mode: 'insensitive' } }
-        ]
-      }
+          { description: { contains: query, mode: 'insensitive' } },
+        ],
+      },
     })
-  }
+  },
 }
