@@ -1,0 +1,76 @@
+Here's how I would structure a prompt to get an AI to generate an API client service for the User model:
+
+"Please create an API client service (services/api/users.ts) for the User model. The implementation should follow the API Client Pattern and include proper TypeScript types and error handling.
+
+Here's the User model from my schema.prisma:
+```prisma
+model User {
+    id            String          @id
+    appWallet     String          @unique
+    username      String          @unique
+    extWallet     String          @unique
+    email         String?         @unique
+    bio           String?
+    website       String?
+    avatarUrl     String?
+    bannerUrl     String?
+    profile       Profile?
+    communities   UserCommunity[]
+    projects      Project[]
+    posts         Post[]
+    comments      Comment[]
+    votes         Vote[]
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+    roles         UserRole[]
+    roleGrants    RoleGrant[]     @relation('grantor')
+    tokens        UserToken[]
+
+    @@index([appWallet, username, extWallet, email])
+}
+```
+
+Requirements:
+1. Create TypeScript interfaces for:
+   - User type (all fields)
+   - CreateUserInput (required fields for creation)
+   - UpdateUserInput (all fields optional)
+   - UserWithRelations (including nested relations like profile, roles, etc.)
+
+2. Implement the following API functions:
+   - getUsers(): Fetch all users
+   - getUserById(id: string): Fetch single user
+   - getUserByUsername(username: string): Fetch by username
+   - getUserByWallet(wallet: string): Fetch by either appWallet or extWallet
+   - createUser(data: CreateUserInput): Create new user
+   - updateUser(id: string, data: UpdateUserInput): Update user
+   - deleteUser(id: string): Delete user
+   - getUserProfile(id: string): Get user with profile data
+   - getUserCommunities(id: string): Get user's communities
+   - getUserRoles(id: string): Get user's roles
+
+3. Technical requirements:
+   - Use the Fetch API
+   - Base URL should use environment variable NEXT_PUBLIC_API_URL
+   - Include try/catch blocks for all functions
+   - Console.error all caught errors before throwing
+   - Check response.ok and handle HTTP errors
+   - Return typed responses
+   - Add JSDoc comments for function documentation
+
+4. Error handling:
+   - Create custom error types for common scenarios (NotFound, Unauthorized, etc.)
+   - Include HTTP status code checks
+   - Proper error messages for different scenarios
+
+The code should follow best practices for a Next.js application and be optimized for use with React components and hooks."
+
+This prompt provides:
+1. Clear model definition
+2. Specific interface requirements
+3. Required functions with clear signatures
+4. Technical specifications
+5. Error handling expectations
+6. Context about the framework and usage
+
+Would you like me to generate the expected response to this prompt as well?
