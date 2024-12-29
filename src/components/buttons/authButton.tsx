@@ -23,7 +23,7 @@ export default function AuthButton({
     if (!isLoggedIn) {
       setShowAuthFlow(true)
     } else {
-      toast.warning('user is already logged in')
+      toast.warning('ya cuentas con una sesión activa')
     }
   }
   async function logout() {
@@ -42,7 +42,7 @@ export default function AuthButton({
       size={size}
       className="font-medium"
     >
-      {isLoggedIn ? 'sign out' : 'sign in'}
+      {isLoggedIn ? 'salir' : 'entrar'}
     </Button>
   )
 }

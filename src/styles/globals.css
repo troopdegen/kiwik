@@ -5,33 +5,40 @@
 /* Color variables (light and dark mode) */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 256 60% 95%;                /* #E8E1FA - Light lavender / Lavender (web) (coolors.co)*/
+    --foreground: 264 88% 7%;                 /* #0E0220 - Dark purple / Dark purple (coolors.co)*/
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --background-dark: 268 91% 13%;           /* #1F033E - Dark purple / Russian violet (coolors.co)*/ 
+    --foreground-dark: 264 88% 7%;            /* #EFEBFA - Bone white / Magnolia (coolors.co)*/
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --card: 256 60% 95%;                      /* #EFEBFA - Bone white / Magnolia (coolors.co)*/
+    --card-foreground: 259 59% 13%;           /* #190D33 - Dark gray purple / Russian violet (coolors.co)*/
 
-    --primary: 278 100% 79%;
-    --primary-foreground: 210 40% 98%;
+    --popover: 256 60% 95%;                   /* #EFEBFA - Bone white / Magnolia (coolors.co)*/
+    --popover-foreground: 259 59% 13%;        /* #190D33 - Dark gray purple / Russian violet (coolors.co)*/
 
-    --secondary: 54 100% 76%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --primary: 317 92% 40%;                   /* #C4088F - Pink / Red Violet (coolors.co)*/ 
+    --primary-foreground: 252 29% 97%;        /* #F5F4F9 - White / Ghost white (coolors.co)*/
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: 266 86% 19%;                 /* #2C075C - Purple / Persian indigo (coolors.co)*/
+    --secondary-foreground: 252 29% 97%;      /* #F5F4F9 - White / Ghost white (coolors.co)*/
 
-    --accent: 0 100% 75%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: 252 27% 35%;                     /* #4C4273 - Gray purple / Ultra Violet (coolors.co)*/
+    --muted-foreground: 252 29% 97%;          /* #F5F4F9 - White / Ghost white (coolors.co)*/
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --accent: 151 74% 33%;                    /* #169457 - Green / Shamrock green (coolors.co)*/
+    --accent-foreground: 252 29% 97%;         /* #F5F4F9 - White / Ghost white (coolors.co)*/
 
-    --border: 214.3 31.8% 91.4%;
+    --destructive: 36 100% 50%;               /* #FF9900 - Yellow-orange / Orange peel (coolors.co)*/
+    --destructive-foreground: 264 88% 7%;     /* #190D33 - Dark gray purple / Russian violet (coolors.co)*/
+
+    --border: 175 62% 81%;                    /* #B2EDE8 - Teal / Celeste (coolors.co)*/  
+    --input: 175 62% 81%;                     /* #B2EDE8 - Teal / Celeste (coolors.co)*/  
+    --ring: 317 92% 40%;                   /* #C4088F - Pink / Red Violet (coolors.co)*/ 
+
+    /* --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 262 78% 32%; */
 
     --radius: 0.5rem;
   }

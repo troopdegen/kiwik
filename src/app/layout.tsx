@@ -13,8 +13,8 @@ const fontSans = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Polygon Hackathon Starter by Dabl Club',
-  description: 'Get a head start on your hack with Polygon',
+  title: 'kiwik | jardín infinito de regeneración',
+  description: 'talento colectivo que cultiva ideas y genera impacto',
   icons: [{ rel: 'icon', url: '/favicon.ico' }],
 }
 
@@ -22,7 +22,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',

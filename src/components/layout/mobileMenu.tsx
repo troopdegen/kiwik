@@ -38,9 +38,9 @@ export default function MobileMenu({ menuItems, pathname }: MobileMenuProps) {
           {menuItems?.map((menuItem, index) => (
             <Link
               key={`${menuItem.displayText}-menuItem-${index}`}
-              className={`inline-flex items-center justify-center px-4 py-2 text-lg font-medium text-secondary-foreground transition-colors hover:text-primary focus:text-primary focus:outline-none ${
+              className={`inline-flex items-center justify-center px-4 py-2 text-lg font-medium text-foreground transition-colors hover:text-primary focus:text-primary focus:outline-none ${
                 pathname === menuItem.href &&
-                'pointer-events-none underline decoration-primary decoration-[1.5px] underline-offset-[6px] hover:!text-secondary-foreground'
+                'pointer-events-none underline decoration-primary decoration-[1.75px] underline-offset-[6px] hover:!text-foreground'
               }`}
               href={menuItem.href}
             >
