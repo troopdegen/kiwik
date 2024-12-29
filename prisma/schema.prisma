@@ -72,11 +72,11 @@ model Project {
     name          String      @unique
     email         String?     @unique
     website       String      @unique
+    category      String
     description   String?
     avatarUrl     String?
     bannerUrl     String?
     tokenAddress  String?
-    category      String
     networks      String[]
     admin         User        @relation(fields: [adminId], references: [id])
     adminId       String
@@ -94,10 +94,15 @@ model Project {
 model Community {
     id            String          @id @default(uuid())
     name          String          @unique
+    category      String
     description   String?
-    project       Project?
-    projectId     String?         @unique
+    avatarUrl     String?
+    bannerUrl     String?
+    tokenAddress  String?
+    projects      Project[]
     members       UserCommunity[]
+    admin         User            @relation(fields: [adminId], references: [id])
+    adminId       String
     posts         Post[]
     createdAt     DateTime        @default(now())
     updatedAt     DateTime        @updatedAt

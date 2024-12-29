@@ -1,9 +1,9 @@
-import prisma from '../prismaClient'
+import db from '@/server/db'
 import type { Community } from '@/types/community'
 
 export const communityController = {
   async createCommunity(data: Omit<Community, 'id' | 'createdAt'>) {
-    return await prisma.community.create({
+    return await db.community.create({
       data: {
         name: data.name,
         profileUrl: data.profileUrl,

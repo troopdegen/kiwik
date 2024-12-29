@@ -1,7 +1,6 @@
-
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { apiClient } from '../apiClient'
-import { User, Community, Post, Comment, Vote } from '@prisma/client'
+import { Community, User } from '@prisma/client'
 
 // User hooks
 export function useUsers(params?: { page?: number; limit?: number }) {
@@ -33,13 +32,8 @@ export function useCreateUser() {
 export function useUpdateUser() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({
-      id,
-      data,
-    }: {
-      id: string
-      data: Partial<User>
-    }) => apiClient.users.update(id, data),
+    mutationFn: ({ id, data }: { id: string; data: Partial<User> }) =>
+      apiClient.users.update(id, data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['users'] })
       queryClient.invalidateQueries({ queryKey: ['user', variables.id] })
@@ -77,60 +71,11 @@ export function useCreateCommunity() {
 export function useUpdateCommunity() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({
-      id,
-      data,
-    }: {
-      id: string
-      data: Partial<Community>
-    }) => apiClient.communities.update(id, data),
+    mutationFn: ({ id, data }: { id: string; data: Partial<Community> }) =>
+      apiClient.communities.update(id, data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['communities'] })
       queryClient.invalidateQueries({ queryKey: ['community', variables.id] })
-    },
-  })
-}
-
-// Post hooks
-export function usePosts(params?: { page?: number; limit?: number }) {
-  return useQuery({
-    queryKey: ['posts', params],
-    queryFn: () => apiClient.posts.getAll(params),
-  })
-}
-
-export function usePost(id: string) {
-  return useQuery({
-    queryKey: ['post', id],
-    queryFn: () => apiClient.posts.getById(id),
-    enabled: !!id,
-  })
-}
-
-export function useCreatePost() {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: (data: Omit<Post, 'id' | 'createdAt' | 'updatedAt'>) =>
-      apiClient.posts.create(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] })
-    },
-  })
-}
-
-export function useUpdatePost() {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: ({
-      id,
-      data,
-    }: {
-      id: string
-      data: Partial<Post>
-    }) => apiClient.posts.update(id, data),
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] })
-      queryClient.invalidateQueries({ queryKey: ['post', variables.id] })
     },
   })
 }
