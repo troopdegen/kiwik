@@ -19,7 +19,7 @@ import {
 } from 'viem/chains'
 import { useRouter } from 'next/navigation'
 import { customEvmNetworks } from './customNetworks'
-import { fetchUserAccount } from '@/services/user'
+import { apiClient } from '@/lib/apiClient'
 
 const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY ?? undefined
 
@@ -59,11 +59,11 @@ export default function OnchainProvider({ children }: { children: ReactNode }) {
         return
       }
       try {
-        const fetchedUser = await fetchUserAccount(
-          user.userId,
-          primaryWallet.address as Address,
-          user.username,
-        )
+        const fetchedUser = await apiClient.auth.getOrCreateUser({
+          dynamicUserId: user.userId,
+          appWallet: primaryWallet.address as Address,
+          username: user.username,
+        })
         console.log('Succesfully fetched user:', fetchedUser)
         router.push('/account')
       } catch (error) {

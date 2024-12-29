@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { apiClient } from '../apiClient'
-import { Community, User } from '@prisma/client'
+import { User } from '@prisma/client'
 
 // User hooks
 export function useUsers(params?: { page?: number; limit?: number }) {
@@ -21,7 +21,7 @@ export function useUser(id: string) {
 export function useCreateUser() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (data: Omit<User, 'id' | 'createdAt' | 'updatedAt'>) =>
+    mutationFn: (data: Omit<User, 'createdAt' | 'updatedAt'>) =>
       apiClient.users.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] })

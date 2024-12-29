@@ -1,8 +1,10 @@
-import { getOrCreateUser } from '@/helpers/getOrCreateUser'
 import { NextRequest, NextResponse } from 'next/server'
+import { AuthService } from '@/lib/services/auth.service'
+
+const authService = new AuthService()
 
 export async function POST(req: NextRequest) {
-  const { dynamicUserId, wallet, username } = await req.json()
+  const { dynamicUserId, appWallet, extWallet, username } = await req.json()
   if (!dynamicUserId) {
     return NextResponse.json(
       { error: 'dynamicUserId is required' },
@@ -10,7 +12,12 @@ export async function POST(req: NextRequest) {
     )
   }
   try {
-    const userAccount = await getOrCreateUser(dynamicUserId, wallet, username)
+    const userAccount = await authService.getOrCreateUser({
+      id: dynamicUserId,
+      appWallet,
+      username,
+      extWallet,
+    })
 
     return NextResponse.json(
       {

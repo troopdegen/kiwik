@@ -26,7 +26,8 @@ model User {
     id            String          @id
     appWallet     String          @unique
     username      String          @unique
-    extWallet     String          @unique
+    displayName   String
+    extWallet     String?         @unique
     email         String?         @unique
     bio           String?
     website       String?
@@ -46,7 +47,7 @@ model User {
     roleGrants    RoleGrant[]     @relation("grantor")
     tokens        UserToken[]     // Token holdings for gating
 
-    @@index([appWallet, username, extWallet, email])
+    @@index([appWallet, username, displayName, extWallet, email])
 }
 
 // Existing Profile model remains unchanged

@@ -1,5 +1,5 @@
-
-import { User, Community, Post, Comment, Vote, Project, Profile } from '@prisma/client'
+import { User, Community, Post } from '@prisma/client'
+import { Address } from 'viem'
 
 interface ApiClientOptions {
   baseUrl: string
@@ -58,6 +58,22 @@ export class ApiClient {
     }
   }
 
+  // Auth endpoints
+
+  auth = {
+    getOrCreateUser: async (data: {
+      dynamicUserId: string
+      appWallet: Address
+      username: string
+      extWallet?: Address
+    }) => {
+      return this.request<User>('/api/auth', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      })
+    },
+  }
+
   // User endpoints
   users = {
     getAll: async (params?: PaginationParams) => {
@@ -66,7 +82,7 @@ export class ApiClient {
     getById: async (id: string) => {
       return this.request<User>(`/api/users/${id}`)
     },
-    create: async (data: Omit<User, 'id' | 'createdAt' | 'updatedAt'>) => {
+    create: async (data: Omit<User, 'createdAt' | 'updatedAt'>) => {
       return this.request<User>('/api/users', {
         method: 'POST',
         body: JSON.stringify(data),
@@ -88,7 +104,9 @@ export class ApiClient {
   // Community endpoints
   communities = {
     getAll: async (params?: PaginationParams) => {
-      return this.request<Community[]>('/api/communities' + this.buildQueryString(params))
+      return this.request<Community[]>(
+        '/api/communities' + this.buildQueryString(params),
+      )
     },
     getById: async (id: string) => {
       return this.request<Community>(`/api/communities/${id}`)
@@ -139,7 +157,9 @@ export class ApiClient {
     },
   }
 
-  private buildQueryString(params?: Record<string, any>): string {
+  private buildQueryString(
+    params?: Record<string, unknown> | PaginationParams | undefined,
+  ): string {
     if (!params) return ''
     const query = new URLSearchParams()
     Object.entries(params).forEach(([key, value]) => {
