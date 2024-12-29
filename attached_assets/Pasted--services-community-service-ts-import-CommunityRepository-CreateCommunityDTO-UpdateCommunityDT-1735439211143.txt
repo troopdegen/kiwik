@@ -1,0 +1,102 @@
+// services/community.service.ts
+import { CommunityRepository, CreateCommunityDTO, UpdateCommunityDTO } from '../repositories/community.repository';
+import { CacheService } from './cache.service';
+import { EventEmitter } from './event.emitter';
+
+export class CommunityService {
+  constructor(
+    private repository: CommunityRepository,
+    private cache: CacheService,
+    private events: EventEmitter
+  ) {}
+
+  async createCommunity(data: CreateCommunityDTO) {
+    const community = await this.repository.create(data);
+    
+    // Emit event for websockets/notifications
+    this.events.emit('community:created', community);
+    
+    // Invalidate cache
+    await this.cache.invalidate('communities:list');
+    
+    return community;
+  }
+
+  async getCommunity(id: string) {
+    // Try cache first
+    const cached = await this.cache.get(`community:${id}`);
+    if (cached) return cached;
+
+    const community = await this.repository.findById(id);
+    
+    // Cache for future requests
+    await this.cache.set(`community:${id}`, community);
+    
+    return community;
+  }
+
+  async updateCommunity(id: string, data: UpdateCommunityDTO) {
+    const community = await this.repository.update(id, data);
+    
+    // Emit event
+    this.events.emit('community:updated', community);
+    
+    // Invalidate caches
+    await Promise.all([
+      this.cache.invalidate(`community:${id}`),
+      this.cache.invalidate('communities:list')
+    ]);
+    
+    return community;
+  }
+
+  // ... other methods
+}
+
+// app/api/communities/route.ts
+import { NextResponse } from 'next/server';
+import { createCommunitySchema } from '../../../schemas/community.schema';
+import { container } from '../../../lib/container';
+
+export async function GET(request: Request) {
+  try {
+    const communityService = container.resolve(CommunityService);
+    const communities = await communityService.getAllCommunities();
+    
+    return NextResponse.json(communities);
+  } catch (error) {
+    console.error('API Error:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch communities' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    
+    // Validate request body
+    const validated = createCommunitySchema.parse(body);
+    
+    const communityService = container.resolve(CommunityService);
+    const community = await communityService.createCommunity(validated);
+    
+    return NextResponse.json(community, { status: 201 });
+  } catch (error) {
+    console.error('API Error:', error);
+    
+    if (error.name === 'ValidationError') {
+      return NextResponse.json(
+        { error: 'Invalid request data', details: error.errors },
+        { status: 400 }
+      );
+    }
+    
+    return NextResponse.json(
+      { error: 'Failed to create community' },
+      { status: 500 }
+    );
+  }
+}

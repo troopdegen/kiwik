@@ -1,0 +1,73 @@
+Here's how I would structure a prompt to get an AI to generate a User Service following the same pattern:
+
+"Please create a User Service (services/user.service.ts) following the same pattern as the provided Community Service. The service should integrate with cache, events, and the user repository.
+
+Here's my User model from Prisma:
+```prisma
+model User {
+    id            String          @id
+    appWallet     String          @unique
+    username      String          @unique
+    extWallet     String          @unique
+    email         String?         @unique
+    bio           String?
+    website       String?
+    avatarUrl     String?
+    bannerUrl     String?
+    profile       Profile?
+    communities   UserCommunity[]
+    projects      Project[]
+    posts         Post[]
+    comments      Comment[]
+    votes         Vote[]
+    roles         UserRole[]
+    roleGrants    RoleGrant[]     @relation('grantor')
+    tokens        UserToken[]
+}
+```
+
+Requirements:
+1. Follow the same structure as CommunityService with:
+   - Repository dependency
+   - Cache service integration
+   - Event emitter for notifications
+   - Error handling
+   - Cache invalidation
+
+2. Implement these methods:
+   - createUser
+   - getUser (with cache)
+   - updateUser (with cache invalidation)
+   - deleteUser
+   - getUserByWallet
+   - getUserByUsername
+   - getUserProfile (with related data)
+   - getUserCommunities
+   - getUserRoles
+   - searchUsers
+
+3. Include proper:
+   - Type definitions
+   - Constructor injection
+   - Cache key patterns
+   - Event emissions
+   - Error handling
+   - Documentation
+
+4. Maintain consistency with:
+   - Cache strategies
+   - Event naming
+   - Error handling patterns
+   - Method signatures
+
+Please follow the same patterns shown in the community service example, particularly for cache and event handling."
+
+This prompt provides:
+1. Clear context (existing service example)
+2. Model definition
+3. Specific requirements
+4. Expected methods
+5. Integration points
+6. Patterns to follow
+
+Would you like to see what the expected response should look like?
